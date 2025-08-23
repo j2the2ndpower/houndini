@@ -1,0 +1,11 @@
+{
+    "name": "vibe",
+    "private": true,
+    "packageManager": "pnpm@10.10.0",
+    "scripts": {
+        "dev": "pnpm --filter collections-agent dev",
+        "build": "pnpm --filter collections-agent build",
+        "start": "pnpm --filter collections-agent start",
+        "cron:run": "node ./scripts/cron.mjs"
+    }
+}

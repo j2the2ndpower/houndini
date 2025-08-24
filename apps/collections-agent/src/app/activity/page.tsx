@@ -32,7 +32,14 @@ export default function ActivityPage() {
   }, []);
 
   const csv = useMemo(
-    () => toCsv(rows as any, ["id", "invoiceId", "stepId", "to", "atISO"]),
+    () =>
+      toCsv(rows as Array<Record<string, unknown>>, [
+        "id",
+        "invoiceId",
+        "stepId",
+        "to",
+        "atISO",
+      ]),
     [rows]
   );
 

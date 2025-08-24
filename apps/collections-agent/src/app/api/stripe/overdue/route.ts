@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { apiKey } = BodySchema.parse(body);
 
-    const stripe = new Stripe(apiKey, { apiVersion: "2024-12-18.acacia" });
+    const stripe = new Stripe(apiKey, { apiVersion: "2024-06-20" });
 
     const invoices = await stripe.invoices.list({
       status: "open",

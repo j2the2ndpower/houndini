@@ -4,18 +4,19 @@ import { store } from "@/lib/store";
 import { err, json } from "@/lib/api";
 
 export async function POST(req: Request) {
-  const sig = headers().get("stripe-signature");
+  const sig = (await headers()).get("stripe-signature");
   const secret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!secret) return err("Missing STRIPE_WEBHOOK_SECRET", 400);
   const body = await req.text();
   const stripe = new Stripe(process.env.STRIPE_API_KEY || "", {
-    apiVersion: "2024-12-18.acacia",
+    apiVersion: "2024-06-20",
   });
   let event: Stripe.Event;
   try {
     event = stripe.webhooks.constructEvent(body, sig as string, secret);
-  } catch (e: any) {
-    return err(`Webhook Error: ${e.message}`, 400);
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : "Invalid payload";
+    return err(`Webhook Error: ${message}`, 400);
   }
 
   switch (event.type) {

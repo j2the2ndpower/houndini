@@ -8,7 +8,8 @@ export async function GET(req: Request) {
   try {
     const { email } = await handleOAuthCallback(code);
     return json({ email });
-  } catch (e: any) {
-    return err(e?.message || "OAuth error", 400);
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : "OAuth error";
+    return err(message, 400);
   }
 }

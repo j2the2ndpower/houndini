@@ -35,7 +35,10 @@ export async function handleOAuthCallback(code: string) {
   const oauth2 = google.oauth2({ version: "v2", auth: oauth2Client });
   const me = await oauth2.userinfo.get();
   const email = me.data.email as string;
-  await store.writeGmailAuth({ email, tokens });
+  await store.writeGmailAuth({
+    email,
+    tokens: tokens as unknown as Record<string, unknown>,
+  });
   return { email };
 }
 
@@ -46,7 +49,10 @@ export async function sendWithGmail(to: string, subject: string, text: string) {
   oauth2Client.setCredentials(auth.tokens);
   // Persist refreshed tokens
   oauth2Client.on("tokens", async (tokens) => {
-    const merged = { ...auth.tokens, ...tokens } as any;
+    const merged = { ...auth.tokens, ...tokens } as unknown as Record<
+      string,
+      unknown
+    >;
     await store.writeGmailAuth({ email: auth.email, tokens: merged });
   });
   const gmail = google.gmail({ version: "v1", auth: oauth2Client });
@@ -76,7 +82,10 @@ export async function checkGmailHealth() {
     const oauth2Client = createOAuthClient();
     oauth2Client.setCredentials(auth.tokens);
     oauth2Client.on("tokens", async (tokens) => {
-      const merged = { ...auth.tokens, ...tokens } as any;
+      const merged = { ...auth.tokens, ...tokens } as unknown as Record<
+        string,
+        unknown
+      >;
       await store.writeGmailAuth({ email: auth.email, tokens: merged });
     });
     const oauth2 = google.oauth2({ version: "v2", auth: oauth2Client });

@@ -202,7 +202,9 @@ export default function Home() {
         <label className="block text-sm font-medium mt-4">Tone</label>
         <select
           value={tone}
-          onChange={(e) => setTone(e.target.value as any)}
+          onChange={(e) =>
+            setTone(e.target.value as "friendly" | "firm" | "professional")
+          }
           className="w-full rounded border px-3 py-2"
         >
           <option value="friendly">Friendly</option>

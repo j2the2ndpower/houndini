@@ -16,7 +16,7 @@ describe("compose API", () => {
       }),
     });
     const res = await POST(req);
-    const json: any = await (res as Response).json();
+    const json = await(res as Response).json() as { data: { subject: string } };
     expect(json.data.subject).toContain("INV-1");
   });
 });

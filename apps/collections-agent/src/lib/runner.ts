@@ -2,12 +2,13 @@ import Stripe from "stripe";
 import { type Sequence, defaultSequence } from "@vibe/true-ai";
 import { composeReminder } from "@vibe/true-ai";
 import { mapStripeInvoiceToOverdue } from "@/lib/stripe";
-import { store, type SendLog } from "@/lib/store";
+import { store } from "@/lib/store";
+import type { SendLog } from "@/lib/types";
 import { renderTemplate, formatCurrency } from "@vibe/true-ai";
 import { Mailer } from "@/lib/mailer";
 
 export async function runSequencesWithKey(apiKey: string) {
-  const stripe = new Stripe(apiKey, { apiVersion: "2024-12-18.acacia" });
+  const stripe = new Stripe(apiKey, { apiVersion: "2024-06-20" });
   const invoices = await stripe.invoices.list({
     status: "open",
     limit: 100,

@@ -1,7 +1,19 @@
 import type { OverdueInvoice } from "@/lib/types";
 
 export function mapStripeInvoiceToOverdue(
-  inv: any,
+  inv: {
+    id: string;
+    number?: string | null;
+    amount_remaining?: number | null;
+    currency?: string | null;
+    customer?:
+      | string
+      | { id?: string | null; email?: string | null; name?: string | null }
+      | null;
+    customer_email?: string | null;
+    due_date?: number | null;
+    hosted_invoice_url?: string | null;
+  },
   nowSec: number
 ): OverdueInvoice | null {
   if (!inv?.due_date || inv.due_date >= nowSec) return null;
@@ -10,9 +22,7 @@ export function mapStripeInvoiceToOverdue(
     Math.floor((nowSec - (inv.due_date as number)) / 86400)
   );
   const customerObj =
-    typeof inv.customer === "object" && inv.customer
-      ? (inv.customer as any)
-      : null;
+    typeof inv.customer === "object" && inv.customer ? inv.customer : null;
   const customerEmail = customerObj?.email || inv.customer_email || null;
   const customerId =
     typeof inv.customer === "string"

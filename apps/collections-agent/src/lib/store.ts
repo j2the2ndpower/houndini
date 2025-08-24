@@ -17,12 +17,12 @@ const settingsFile = path.join(dataDir, "settings.json");
 
 export type GmailAuth = {
   email: string;
-  tokens: any;
+  tokens: Record<string, unknown>;
 };
 
 export type OutlookAuth = {
   email: string;
-  tokens: any;
+  tokens: Record<string, unknown>;
 };
 
 export type Settings = {

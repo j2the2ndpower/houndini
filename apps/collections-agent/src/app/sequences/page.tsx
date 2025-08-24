@@ -127,7 +127,12 @@ export default function SequencesPage() {
                   className="border rounded px-2 py-1"
                   value={step.tone ?? "professional"}
                   onChange={(e) =>
-                    updateStep(seqIdx, stepIdx, { tone: e.target.value as any })
+                    updateStep(seqIdx, stepIdx, {
+                      tone: e.target.value as
+                        | "friendly"
+                        | "professional"
+                        | "firm",
+                    })
                   }
                 >
                   <option value="friendly">Friendly</option>
